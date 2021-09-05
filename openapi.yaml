@@ -1,0 +1,487 @@
+openapi: 3.0.0
+info:
+  title: Employee Hub
+  version: 1.0.0
+  description: Employee Hub project documentation
+  contact:
+    email: ''
+    name: ''
+    url: ''
+  license:
+    name: MIT
+    url: ''
+paths:
+  /api/users:
+    post:
+      tags:
+        - Users
+      description: Created a new user
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+      responses:
+        '201':
+          description: JSON with success message and data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/USER_RESPONSE'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/400ERROR'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/500INTERNAL_SERVER_ERROR'
+
+    get:
+      tags:
+        - Users
+      description: Get all users
+      responses:
+        '200':
+          description: JSON with all users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/GET_ALL_USERS'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/404ERROR'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/500INTERNAL_SERVER_ERROR'
+
+  /api/users/:id:
+    get:
+      tags:
+        - Users
+      description: Get user by id
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          required: true
+      responses:
+        '200':
+          description: JSON with user data by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/USER_RESPONSE'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/404ERROR'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/500INTERNAL_SERVER_ERROR'
+    put:
+      tags:
+        - Users
+      description: Update user fields by id
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          required: true
+      responses:
+        '201':
+          description: JSON with updated user fileds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/USER_RESPONSE'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/400ERROR'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/404ERROR'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/500INTERNAL_SERVER_ERROR'
+    delete:
+      tags:
+        - Users
+      description: Delete user
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          required: true
+      responses:
+        '201':
+          description: User was deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/200SUCCESS'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/404ERROR'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/500INTERNAL_SERVER_ERROR'
+
+  /api/files/:
+    post:
+      tags:
+        - Files
+      description: Upload file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '201':
+          description: JSON with message and data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/201FILE_SUCCESS'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/400ERROR'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/500INTERNAL_SERVER_ERROR'
+
+  /api/files/:id:
+    get:
+      tags:
+        - Files
+      description: Download or show file
+      parameters:
+        - name: id
+          in: path
+          description: File id
+          required: true
+        - name: attachment
+          description: "Set attachment=true in query if you want download, or =false to see"
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "/api/files/1?attachment=true"
+      responses:
+        '200':
+          description: "Get image"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/404ERROR'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingeResponseSchema'
+              examples:
+                Example:
+                  $ref: '#/components/examples/500INTERNAL_SERVER_ERROR'
+
+
+components:
+
+  requestBodies:
+
+    User:
+      description: JSON object contain user information
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+
+  schemas:
+
+    User:
+      type: object
+      required:
+        -fullName
+        -birthday
+        -phoneNumber
+        -privateEmail
+        -businessEmail
+        -registrationAddress
+        -position
+        -manager
+        -cvFileId
+        -firstWorkday
+        -salary
+        -salaryNotes
+        -ldapUsername
+      properties:
+        fullname:
+          type: string
+        birthday:
+          type: string
+        phoneNumber:
+          type: string
+          uniqueItems: true
+        privateEmail:
+          type: string
+          uniqueItems: true
+        businessEmail:
+          type: string
+          uniqueItems: true
+        registrationAddress:
+          type: string
+        position:
+          type: string
+        manager:
+          type: string
+        cvFileId:
+          type: integer
+          uniqueItems: true
+        firstWorkday:
+          type: string
+        salary:
+          type: number
+        salaryNotes:
+          type: string
+
+      example:
+        fullName: "Tom John"
+        birthday: "1946-03-08"
+        phoneNumber: "+380713332344"
+        privateEmail: "private@mail.ru"
+        businessEmail: "business@mail.ru"
+        registrationAddress: "Kharkiv Saltovka"
+        position: "city"
+        manager: "Ivan"
+        cvFileId: 1
+        firstWorkday: "1986-04-08"
+        salary: 10000
+        salaryNotes: "bonus"
+
+    SingeResponseSchema:
+      type: object
+      properties:
+        message:
+          type: string
+
+  examples:
+
+    USER_RESPONSE:
+      value:
+        message: "success"
+        data: {
+          "id": 1,
+          "fullName": "Maxim 4eburek",
+          "birthday": "1945-08-03T00:00:00.000Z",
+          "phoneNumber": "+3807823423",
+          "additionalPhoneNumber": "+730222222",
+          "privateEmail": "keks@mail",
+          "businessEmail": "morgen@shtern",
+          "registrationAddress": "selo",
+          "position": "city",
+          "manager": "Ivan",
+          "cvFileId": 1,
+          "photoFileId": null,
+          "passport": "Ukraine",
+          "dateOfIssue": "2000-03-13T00:00:00.000Z",
+          "inn": "1233121a",
+          "innFileId": null,
+          "firstWorkday": "2900-03-01T00:00:00.000Z",
+          "salary": 2,
+          "salaryNotes": "car",
+          "deleted": false,
+          "ldapUsername": "m.4eburek",
+          "createdAt": "2021-08-20T13:05:05.783Z",
+          "updatedAt": "2021-08-20T13:05:05.783Z",
+          "INNFileId": null,
+          "CVFileId": null
+        }
+
+    400ERROR:
+      value:
+        message: "Bad Request"
+
+    GET_ALL_USERS:
+      value:
+        message: "success"
+        data: [
+          {
+            "id": 1,
+            "fullName": "Maxim 4eburek",
+            "birthday": "1945-08-03T00:00:00.000Z",
+            "phoneNumber": "+3807823423",
+            "additionalPhoneNumber": "+730222222",
+            "privateEmail": "keks@mail",
+            "businessEmail": "morgen@shtern",
+            "registrationAddress": "selo",
+            "position": "city",
+            "manager": "Ivan",
+            "cvFileId": 1,
+            "photoFileId": null,
+            "passport": "Ukraine",
+            "dateOfIssue": "2000-03-13T00:00:00.000Z",
+            "inn": "1233121a",
+            "innFileId": null,
+            "firstWorkday": "2900-03-01T00:00:00.000Z",
+            "salary": 2,
+            "salaryNotes": "car",
+            "deleted": false,
+            "ldapUsername": "m.4eburek",
+            "createdAt": "2021-08-20T13:05:05.783Z",
+            "updatedAt": "2021-08-20T13:05:05.783Z",
+            "INNFileId": null,
+            "CVFileId": null
+          },
+          {
+            "id": 4,
+            "fullName": "Ivan Mark",
+            "birthday": "1945-08-03T00:00:00.000Z",
+            "phoneNumber": "+730918041",
+            "additionalPhoneNumber": "+0991234221",
+            "privateEmail": "vanya@mail",
+            "businessEmail": "ivanko@shtern",
+            "registrationAddress": "selo",
+            "position": "city",
+            "manager": "Ivan",
+            "cvFileId": 2,
+            "photoFileId": null,
+            "passport": "UkraineUSA",
+            "dateOfIssue": "2000-03-13T00:00:00.000Z",
+            "inn": "12ffff33121a",
+            "innFileId": null,
+            "firstWorkday": "2900-03-01T00:00:00.000Z",
+            "salary": 2,
+            "salaryNotes": "car",
+            "deleted": false,
+            "ldapUsername": "i.mark",
+            "createdAt": "2021-08-20T13:09:39.226Z",
+            "updatedAt": "2021-08-20T13:09:39.226Z",
+            "INNFileId": null,
+            "CVFileId": null
+          }
+        ]
+
+    404ERROR:
+      value:
+        message: "Not Found"
+
+    201FILE_SUCCESS:
+      value:
+        message: "success"
+        data:  {
+          "id": 1,
+          "name": "download.jpeg",
+          "mimetype": "image",
+          "size": "7339",
+          "contentFolderPath": "/home/atarasov/Desktop/ProjectDB/employee-hub/backend/src/file/2021-07",
+          "updatedAt": "2021-08-20T15:03:36.613Z",
+          "createdAt": "2021-08-20T15:03:36.613Z"
+        }
+
+    200SUCCESS:
+      value:
+        message: "success"
+
+    500INTERNAL_SERVER_ERROR:
+      value:
+        message: "Internal server error"
